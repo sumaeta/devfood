@@ -1,7 +1,5 @@
 package com.code.devfood.domain.model;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Restaurante {
+public class Cidade {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,17 +18,10 @@ public class Restaurante {
 	@Column(nullable = false)
 	private String nome;
 	
-	@Column(nullable = false)
-	private BigDecimal taxaFrete;
-	
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private Cozinha cozinha;
-	
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private FormaPagamento formaPagamento;
-	
+	private Estado estado;
+
 	public Long getId() {
 		return id;
 	}
@@ -47,27 +38,11 @@ public class Restaurante {
 		this.nome = nome;
 	}
 
-	public BigDecimal getTaxaFrete() {
-		return taxaFrete;
+	public Estado getEstado() {
+		return estado;
 	}
 
-	public void setTaxaFrete(BigDecimal taxaFrete) {
-		this.taxaFrete = taxaFrete;
-	}
-
-	public Cozinha getCozinha() {
-		return cozinha;
-	}
-
-	public void setCozinha(Cozinha cozinha) {
-		this.cozinha = cozinha;
-	}
-
-	public FormaPagamento getFormaPagamento() {
-		return formaPagamento;
-	}
-
-	public void setFormaPagamento(FormaPagamento formaPagamento) {
-		this.formaPagamento = formaPagamento;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 }
