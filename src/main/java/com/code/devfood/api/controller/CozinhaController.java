@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +26,13 @@ public class CozinhaController {
 
 	@GetMapping
 	public ResponseEntity<List<Cozinha>> listar(){
-		List<Cozinha> cozinhas = repository.findAll();
+		List<Cozinha> cozinhas = this.repository.findAll();
 		return ResponseEntity.ok(cozinhas);
+	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Cozinha> buscar(@PathVariable Long id){
+		Cozinha cozinha = this.repository.findById(id).get();
+		return ResponseEntity.ok(cozinha);
 	}
 }
