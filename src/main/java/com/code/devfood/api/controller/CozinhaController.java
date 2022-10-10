@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,9 +56,20 @@ public class CozinhaController {
 
 			this.salvar(obj);
 			return ResponseEntity.ok().build();
-
 		}
 
 		return ResponseEntity.notFound().build();
+	}
+
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Cozinha> remover(@PathVariable Long id) {
+		Cozinha obj = this.buscar(id).getBody();
+
+		if (obj == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		this.repository.deleteById(id);
+		return ResponseEntity.noContent().build();
 	}
 }
