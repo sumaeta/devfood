@@ -16,60 +16,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.code.devfood.domain.model.Cozinha;
-import com.code.devfood.domain.repository.CozinhaRepository;
+import com.code.devfood.domain.service.CozinhaService;
 
 @RestController
 @RequestMapping(value = "/cozinhas", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 public class CozinhaController {
 
-	private final CozinhaRepository repository;
+	private final CozinhaService service;
 
 	@Autowired
-	public CozinhaController(CozinhaRepository repository) {
-		this.repository = repository;
+	public CozinhaController(CozinhaService service) {
+		this.service = service;
 	}
 
 	@GetMapping
 	public ResponseEntity<List<Cozinha>> listar() {
-		List<Cozinha> cozinhas = this.repository.findAll();
+		List<Cozinha> cozinhas = this.service.listar();
 		return ResponseEntity.ok(cozinhas);
 	}
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long id) {
-		Cozinha cozinha = this.repository.findById(id).get();
+		Cozinha cozinha = this.service.buscar(id);
 		return ResponseEntity.ok(cozinha);
 	}
 
 	@PostMapping
 	public ResponseEntity<Cozinha> salvar(@RequestBody Cozinha cozinha) {
-		this.repository.save(cozinha);
+		this.service.salvar(cozinha);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Cozinha> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
-		Cozinha obj = this.buscar(id).getBody();
-
-		if (obj != null) {
-			obj.setNome(cozinha.getNome());
-
-			this.salvar(obj);
-			return ResponseEntity.ok().build();
-		}
-
-		return ResponseEntity.notFound().build();
+		this.service.atualizar(id, cozinha);
+		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Cozinha> remover(@PathVariable Long id) {
-		Cozinha obj = this.buscar(id).getBody();
-
-		if (obj == null) {
-			return ResponseEntity.notFound().build();
-		}
-
-		this.repository.deleteById(id);
+		this.service.remover(id);
 		return ResponseEntity.noContent().build();
 	}
 }
