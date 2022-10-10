@@ -19,7 +19,7 @@ public class Cidade {
 	private String nome;
 	
 	@ManyToOne
-	@JoinColumn(nullable = false)
+	@JoinColumn()
 	private Estado estado;
 
 	public Long getId() {
