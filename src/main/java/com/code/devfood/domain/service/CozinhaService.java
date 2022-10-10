@@ -3,13 +3,14 @@ package com.code.devfood.domain.service;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.code.devfood.domain.exception.EntidadeEmUsoException;
+import com.code.devfood.domain.exception.EntidadeNaoEncontradaException;
 import com.code.devfood.domain.model.Cozinha;
 import com.code.devfood.domain.repository.CozinhaRepository;
 
@@ -33,15 +34,10 @@ public class CozinhaService {
 		return obj;
 	}
 
-	@Transactional(readOnly = true)
+	//@Transactional(readOnly = true)
 	public Cozinha buscar(Long id) {
 		Optional<Cozinha> obj = this.repository.findById(id);
-
-		if (obj.isEmpty()) {
-			throw new EntityNotFoundException("Cozinha Não Encontrada");
-		}
-
-		return obj.get();
+		return obj.orElseThrow(() -> new EntidadeNaoEncontradaException("Cozinha Não Encontrada"));
 	}
 	
 	@Transactional(readOnly = true)
@@ -52,10 +48,11 @@ public class CozinhaService {
 	@Transactional
 	public void remover(Long id) {
 		try {
-			this.buscar(id);
 			this.repository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			e.getMessage();
+			throw new EntidadeEmUsoException(String.format("Cozinha de código %d não pode ser excluida, pois esta em uso", id));
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntidadeNaoEncontradaException("Não existe cadastro com o ID passado");
 		}
 	}
 	
