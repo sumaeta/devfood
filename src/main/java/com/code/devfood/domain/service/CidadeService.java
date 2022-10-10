@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.code.devfood.domain.exception.EntidadeNaoEncontradaException;
 import com.code.devfood.domain.model.Cidade;
+import com.code.devfood.domain.model.Estado;
 import com.code.devfood.domain.repository.CidadeRepository;
 
 @Service
@@ -50,6 +51,12 @@ public class CidadeService {
 
 	@Transactional
 	public Cidade salvar(Cidade obj) {
+		Long estadoId = obj.getEstado().getId();
+		Estado estado = this.service.buscar(estadoId);
+		
+		if (estado == null) throw new EntidadeNaoEncontradaException(String.format("Estado com Id: %d não foi encontrado", estadoId));
+		
+		obj.setEstado(estado);
 		return this.repository.save(obj);
 	}
 }
