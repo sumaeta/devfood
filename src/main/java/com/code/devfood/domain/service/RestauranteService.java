@@ -3,6 +3,7 @@ package com.code.devfood.domain.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,5 +47,13 @@ public class RestauranteService {
 		
 		restaurante.setCozinha(cozinha);
 		this.repository.save(restaurante);
+	}
+
+	@Transactional
+	public Restaurante atualizar(Long id, Restaurante restaurante) {
+		Restaurante obj = this.buscar(id);
+		BeanUtils.copyProperties(restaurante, obj, "id");
+		this.salvar(obj);
+		return obj;
 	}
 }
