@@ -58,4 +58,10 @@ public class CozinhaController {
 		this.service.remover(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@GetMapping(value = "/por-nome")
+	public ResponseEntity<List<Cozinha>> buscarPorNome(String nome){
+		List<Cozinha> retorno = this.service.buscarPorNome(nome);
+		return ResponseEntity.ok(retorno);
+	}
 }

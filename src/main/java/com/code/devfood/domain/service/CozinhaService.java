@@ -67,4 +67,9 @@ public class CozinhaService {
 			e.getMessage();
 		}
 	}
+
+	@Transactional
+	public List<Cozinha> buscarPorNome(String nome){
+		return this.repository.findByNome(nome);
+	}
 }
