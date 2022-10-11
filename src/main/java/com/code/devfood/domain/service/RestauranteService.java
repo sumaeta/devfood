@@ -1,6 +1,7 @@
 package com.code.devfood.domain.service;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -76,5 +77,15 @@ public class RestauranteService {
 		});
 		this.atualizar(restauranteDestino.getId(), restauranteDestino);
 		return restauranteDestino;
+	}
+
+	@Transactional
+	public List<Restaurante> buscaPorTaxa(BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
+		return this.repository.findByTaxaFreteBetween(taxaFreteInicial, taxaFreteFinal);
+	}
+
+	@Transactional
+	public List<Restaurante> buscaPorNome(String nome, Long cozinhaId) {
+		return this.repository.findByNomeContainingAndCozinhaId(nome, cozinhaId);
 	}
 }

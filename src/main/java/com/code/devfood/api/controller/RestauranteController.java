@@ -1,5 +1,6 @@
 package com.code.devfood.api.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -58,5 +59,15 @@ public class RestauranteController {
 		return ResponseEntity.ok(retorno);
 	}
 
+	@GetMapping(value = "/taxa-frete")
+	public ResponseEntity<List<Restaurante>> buscaPorTaxaFrete(BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal){
+		List<Restaurante> retorno = service.buscaPorTaxa(taxaFreteInicial, taxaFreteFinal);
+		return ResponseEntity.ok(retorno);
+	}
 	
+	@GetMapping(value = "/por-nome")
+	public ResponseEntity<List<Restaurante>> buscaPorNome(String nome, Long cozinhaId){
+		List<Restaurante> retorno = service.buscaPorNome(nome, cozinhaId);
+		return ResponseEntity.ok(retorno);
+	}
 }
