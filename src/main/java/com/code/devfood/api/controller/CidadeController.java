@@ -2,7 +2,7 @@ package com.code.devfood.api.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,6 @@ public class CidadeController {
 
 	private final CidadeService service;
 
-	@Autowired
 	public CidadeController(CidadeService service) {
 		this.service = service;
 	}
@@ -42,7 +41,7 @@ public class CidadeController {
 	@PostMapping
 	public ResponseEntity<Cidade> salvar(@RequestBody Cidade cidade) {
 		Cidade retorno = this.service.salvar(cidade);
-		return ResponseEntity.ok(retorno);
+		return ResponseEntity.status(HttpStatus.CREATED).body(retorno);
 	}
 
 	@DeleteMapping(value = "/{id}")

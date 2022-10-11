@@ -2,7 +2,7 @@ package com.code.devfood.api.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,38 +21,37 @@ import com.code.devfood.domain.service.EstadoService;
 public class EstadoController {
 
 	private final EstadoService service;
-	
-	@Autowired
+
 	public EstadoController(EstadoService service) {
 		this.service = service;
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<List<Estado>> listar(){
+	public ResponseEntity<List<Estado>> listar() {
 		List<Estado> estados = service.listar();
 		return ResponseEntity.ok(estados);
 	}
-	
+
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Estado> buscar(@PathVariable Long id){
+	public ResponseEntity<Estado> buscar(@PathVariable Long id) {
 		Estado retorno = this.service.buscar(id);
 		return ResponseEntity.ok(retorno);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<Estado> salvar(@RequestBody Estado estado){
+	public ResponseEntity<Estado> salvar(@RequestBody Estado estado) {
 		Estado retorno = this.service.salvar(estado);
-		return ResponseEntity.ok(retorno);
+		return ResponseEntity.status(HttpStatus.CREATED).body(retorno);
 	}
-	
+
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Estado> remover(@PathVariable Long id){
+	public ResponseEntity<Estado> remover(@PathVariable Long id) {
 		this.service.remover(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Estado> atualizar(@PathVariable Long id, @RequestBody Estado estado){
+	public ResponseEntity<Estado> atualizar(@PathVariable Long id, @RequestBody Estado estado) {
 		Estado retorno = this.service.atualizar(id, estado);
 		return ResponseEntity.ok().body(retorno);
 	}

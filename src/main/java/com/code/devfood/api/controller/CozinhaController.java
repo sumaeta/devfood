@@ -50,7 +50,7 @@ public class CozinhaController {
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Cozinha> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
 		this.service.atualizar(id, cozinha);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping(value = "/{id}")

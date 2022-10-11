@@ -3,6 +3,7 @@ package com.code.devfood.domain.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -52,7 +53,7 @@ public class CozinhaService {
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(String.format("Cozinha de código %d não pode ser excluida, pois esta em uso", id));
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException("Não existe cadastro com o ID passado");
+			throw new EntidadeNaoEncontradaException("Cozinha Não Encontrada");
 		}
 	}
 	
@@ -60,7 +61,7 @@ public class CozinhaService {
 	public void atualizar(Long id, Cozinha cozinha) {
 		try {
 			Cozinha obj = this.buscar(id);
-			obj.setNome(cozinha.getNome());
+			BeanUtils.copyProperties(cozinha, obj, "id");
 			this.salvar(obj);
 		} catch (Exception e) {
 			e.getMessage();

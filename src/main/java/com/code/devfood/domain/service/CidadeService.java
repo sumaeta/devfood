@@ -3,10 +3,12 @@ package com.code.devfood.domain.service;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.code.devfood.domain.exception.EntidadeEmUsoException;
 import com.code.devfood.domain.exception.EntidadeNaoEncontradaException;
 import com.code.devfood.domain.model.Cidade;
 import com.code.devfood.domain.model.Estado;
@@ -17,8 +19,7 @@ public class CidadeService {
 
 	private final CidadeRepository repository;
 	private final EstadoService service;
-	
-	@Autowired
+
 	public CidadeService(CidadeRepository repository, EstadoService service) {
 		this.repository = repository;
 		this.service = service;
@@ -37,8 +38,14 @@ public class CidadeService {
 
 	@Transactional
 	public void remover(Long id) {
-		this.buscar(id);
-		this.repository.deleteById(id);
+		try {
+			this.repository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new EntidadeEmUsoException(
+					String.format("Cidade de código %d não pode ser excluida, pois esta em uso", id));
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntidadeNaoEncontradaException("Cidade Não Encontrada");
+		}
 	}
 
 	@Transactional
@@ -53,9 +60,10 @@ public class CidadeService {
 	public Cidade salvar(Cidade obj) {
 		Long estadoId = obj.getEstado().getId();
 		Estado estado = this.service.buscar(estadoId);
-		
-		if (estado == null) throw new EntidadeNaoEncontradaException(String.format("Estado com Id: %d não foi encontrado", estadoId));
-		
+
+		if (estado == null)
+			throw new EntidadeNaoEncontradaException(String.format("Estado com Id: %d não foi encontrado", estadoId));
+
 		obj.setEstado(estado);
 		return this.repository.save(obj);
 	}
