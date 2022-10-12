@@ -85,7 +85,7 @@ public class RestauranteService {
 	}
 
 	@Transactional
-	public List<Restaurante> buscaPorNome(String nome, Long cozinhaId) {
-		return this.repository.findByNomeContainingAndCozinhaId(nome, cozinhaId);
+	public List<Restaurante> buscaPorNome(Long cozinhaId, String nome) {
+		return this.repository.consultarPorNome(cozinhaId, nome);
 	}
 }

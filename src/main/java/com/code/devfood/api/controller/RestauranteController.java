@@ -66,8 +66,8 @@ public class RestauranteController {
 	}
 	
 	@GetMapping(value = "/por-nome")
-	public ResponseEntity<List<Restaurante>> buscaPorNome(String nome, Long cozinhaId){
-		List<Restaurante> retorno = service.buscaPorNome(nome, cozinhaId);
+	public ResponseEntity<List<Restaurante>> buscaPorNome(Long cozinhaId, String nome){
+		List<Restaurante> retorno = service.buscaPorNome(cozinhaId, nome);
 		return ResponseEntity.ok(retorno);
 	}
 }
