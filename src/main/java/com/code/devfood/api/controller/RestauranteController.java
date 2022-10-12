@@ -70,4 +70,10 @@ public class RestauranteController {
 		List<Restaurante> retorno = service.buscaPorNome(cozinhaId, nome);
 		return ResponseEntity.ok(retorno);
 	}
+	
+	@GetMapping(value = "/find")
+	public ResponseEntity<List<Restaurante>> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal){
+		List<Restaurante> retorno = service.find(nome, taxaFreteInicial, taxaFreteFinal);
+		return ResponseEntity.ok(retorno);
+	}
 }

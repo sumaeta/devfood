@@ -88,4 +88,9 @@ public class RestauranteService {
 	public List<Restaurante> buscaPorNome(Long cozinhaId, String nome) {
 		return this.repository.consultarPorNome(cozinhaId, nome);
 	}
+	
+	@Transactional
+	public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
+		return this.repository.find(nome, taxaFreteInicial, taxaFreteFinal);
+	}
 }

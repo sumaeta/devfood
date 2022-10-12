@@ -6,8 +6,8 @@ insert into forma_pagamento (id, descricao) values (2, 'Credito')
 insert into forma_pagamento (id, descricao) values (3, 'Debito')
 insert into forma_pagamento (id, descricao) values (4, 'Pix')
 
-INSERT into restaurante(nome, taxa_frete, cozinha_id, forma_pagamento_id) values ('Gourmet Thai', 10, 1, 1);
-INSERT into restaurante(nome, taxa_frete, cozinha_id, forma_pagamento_id) values ('Thai Komida', 10, 1, 1);
+INSERT into restaurante(nome, taxa_frete, cozinha_id, forma_pagamento_id) values ('Gourmet', 10, 1, 1);
+INSERT into restaurante(nome, taxa_frete, cozinha_id, forma_pagamento_id) values ('Thailandesa', 10, 1, 1);
 INSERT into restaurante(nome, taxa_frete, cozinha_id, forma_pagamento_id) values ('Komida', 3, 2, 1);
 
 insert into estado (id, nome) values (1, 'Amazonas');
