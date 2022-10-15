@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -51,4 +53,12 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 		 return query.getResultList();
 	}
 
+	public List<Restaurante> busca(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
+		
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
+		criteria.from(Restaurante.class);
+		
+		return manager.createQuery(criteria).getResultList();
+	}
 }
