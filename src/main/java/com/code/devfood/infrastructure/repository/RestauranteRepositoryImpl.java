@@ -1,5 +1,8 @@
 package com.code.devfood.infrastructure.repository;
 
+import static com.code.devfood.infrastructure.repository.spec.RestauranteSpecs.comFreteGratis;
+import static com.code.devfood.infrastructure.repository.spec.RestauranteSpecs.comNomeSemelhante;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,10 +16,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.code.devfood.domain.model.Restaurante;
+import com.code.devfood.domain.repository.RestauranteRepository;
 import com.code.devfood.domain.repository.RestauranteRepositoryQueries;
 
 @Repository
@@ -24,6 +29,13 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 
 	@PersistenceContext
 	private EntityManager manager;
+	
+	private final RestauranteRepository repository;
+	
+	@Lazy
+	public RestauranteRepositoryImpl(RestauranteRepository repository) {
+		this.repository = repository;
+	}
 
 	@Override
 	public List<Restaurante> find(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
@@ -76,5 +88,10 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 		criteria.where(predicates.toArray(new Predicate[0]));
 
 		return manager.createQuery(criteria).getResultList();
+	}
+
+	@Override
+	public List<Restaurante> findComFreteGratis(String nome) {
+		return repository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
 	}
 }

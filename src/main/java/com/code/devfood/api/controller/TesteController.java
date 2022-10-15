@@ -1,8 +1,5 @@
 package com.code.devfood.api.controller;
 
-import static com.code.devfood.infrastructure.repository.spec.RestauranteSpecs.comFreteGratis;
-import static com.code.devfood.infrastructure.repository.spec.RestauranteSpecs.comNomeSemelhante;
-
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +21,6 @@ public class TesteController {
 	
 	@GetMapping("/frete-gratis")
 	public List<Restaurante> lista(String nome){
-		return repository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
+		return repository.findComFreteGratis(nome);
 	}
 }
