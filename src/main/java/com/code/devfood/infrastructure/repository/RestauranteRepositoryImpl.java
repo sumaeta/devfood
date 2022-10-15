@@ -1,6 +1,7 @@
 package com.code.devfood.infrastructure.repository;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 		var jpql = new StringBuilder();
 
 		jpql.append("from Restaurante where 0 = 0 ");
-		
+
 		var parametros = new HashMap<String, Object>();
 
 		if (StringUtils.hasLength(nome)) {
@@ -47,30 +48,33 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 			jpql.append("and taxaFrete <= :taxaFinal ");
 			parametros.put("taxaFinal", taxaFinal);
 		}
-		
-		 TypedQuery<Restaurante> query = manager.createQuery(jpql.toString(), Restaurante.class);
-		 
-		 parametros.forEach((chave, valor) -> query.setParameter(chave, valor));
-		 
-		 return query.getResultList();
+
+		TypedQuery<Restaurante> query = manager.createQuery(jpql.toString(), Restaurante.class);
+
+		parametros.forEach((chave, valor) -> query.setParameter(chave, valor));
+
+		return query.getResultList();
 	}
 
 	public List<Restaurante> busca(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
-		
+
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
-		
-		Root<Restaurante> root =  criteria.from(Restaurante.class);
-		Predicate predicateNome = builder.like(root.get("nome"), "%" + nome + "%");
-		
-		Predicate predicateTaxaInicial = builder
-				.greaterThanOrEqualTo(root.get("taxaFrete"), taxaInicial);
-		
-		Predicate predicateTaxaFinal = builder
-				.lessThanOrEqualTo(root.get("taxaFrete"), taxaFinal);
-		
-		criteria.where(predicateNome, predicateTaxaInicial, predicateTaxaFinal);
-		
+		Root<Restaurante> root = criteria.from(Restaurante.class);
+
+		var predicates = new ArrayList<Predicate>();
+
+		if (StringUtils.hasText(nome)) {
+			predicates.add(builder.like(root.get("nome"), "%" + nome + "%"));
+		}
+		if (taxaInicial != null) {
+			predicates.add(builder.greaterThanOrEqualTo(root.get("taxaFrete"), taxaInicial));
+		}
+		if (taxaFinal != null) {
+			predicates.add(builder.lessThanOrEqualTo(root.get("taxaFrete"), taxaFinal));
+		}
+		criteria.where(predicates.toArray(new Predicate[0]));
+
 		return manager.createQuery(criteria).getResultList();
 	}
 }
