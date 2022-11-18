@@ -57,7 +57,7 @@ public class RestauranteService {
 	@Transactional
 	public Restaurante atualizar(Long id, Restaurante restaurante) {
 		Restaurante obj = this.buscar(id);
-		BeanUtils.copyProperties(restaurante, obj, "id", "formasPagamento");
+		BeanUtils.copyProperties(restaurante, obj, "id", "formasPagamento", "endereco");
 		this.salvar(obj);
 		return obj;
 	}

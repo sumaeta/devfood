@@ -40,10 +40,24 @@ public class Restaurante {
 		inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
 	private List<FormaPagamento> formasPagamento = new ArrayList<>();
 	
-	
+	@JsonIgnore
 	@Embedded
 	private Endereco endereco;
-	
+
+	public Restaurante(Long id, String nome, BigDecimal taxaFrete, Cozinha cozinha,
+			List<FormaPagamento> formasPagamento, Endereco endereco) {
+		this.id = id;
+		this.nome = nome;
+		this.taxaFrete = taxaFrete;
+		this.cozinha = cozinha;
+		this.formasPagamento = formasPagamento;
+		this.endereco = endereco;
+	}
+
+	public Restaurante() {
+		super();
+	}
+
 	public Long getId() {
 		return id;
 	}
