@@ -1,6 +1,7 @@
 package com.code.devfood.domain.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -43,19 +47,31 @@ public class Restaurante {
 	@JsonIgnore
 	@Embedded
 	private Endereco endereco;
+	
+	@JsonIgnore
+	@CreationTimestamp
+	@Column(nullable = false, columnDefinition = "datetime")
+	private LocalDateTime dataCadastro;
+	
+	@JsonIgnore
+	@UpdateTimestamp
+	@Column(nullable = false, columnDefinition = "datetime")
+	private LocalDateTime dataAtualizacao;
+
+	public Restaurante() {
+	}
 
 	public Restaurante(Long id, String nome, BigDecimal taxaFrete, Cozinha cozinha,
-			List<FormaPagamento> formasPagamento, Endereco endereco) {
+			List<FormaPagamento> formasPagamento, Endereco endereco, LocalDateTime dataCadastro,
+			LocalDateTime dataAtualizacao) {
 		this.id = id;
 		this.nome = nome;
 		this.taxaFrete = taxaFrete;
 		this.cozinha = cozinha;
 		this.formasPagamento = formasPagamento;
 		this.endereco = endereco;
-	}
-
-	public Restaurante() {
-		super();
+		this.dataCadastro = dataCadastro;
+		this.dataAtualizacao = dataAtualizacao;
 	}
 
 	public Long getId() {
@@ -105,4 +121,21 @@ public class Restaurante {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
+
+	public LocalDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(LocalDateTime dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+	public LocalDateTime getDataAtualizacao() {
+		return dataAtualizacao;
+	}
+
+	public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
+		this.dataAtualizacao = dataAtualizacao;
+	}
+
 }
