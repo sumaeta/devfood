@@ -1,6 +1,8 @@
 package com.code.devfood.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,17 +31,16 @@ public class Usuario {
 	@CreationTimestamp
 	@Column(columnDefinition = "dateTime")
 	private LocalDateTime dataCadastro;
-	
+
 	@ManyToMany
-	@JoinTable(name = "usuario_grupo", 
-	joinColumns = @JoinColumn(name = "usuario_id"),
-	inverseJoinColumns = @JoinColumn(name = "grupo_id"))
-	private Grupo grupos;
+	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "usuario_id"),
+			inverseJoinColumns = @JoinColumn(name = "grupo_id"))
+	private List<Grupo> grupos = new ArrayList<>();
 
 	public Usuario() {
 	}
 
-	public Usuario(Long id, String nome, String senha, LocalDateTime dataCadastro, Grupo grupos) {
+	public Usuario(Long id, String nome, String senha, LocalDateTime dataCadastro, List<Grupo> grupos) {
 		this.id = id;
 		this.nome = nome;
 		this.senha = senha;
@@ -79,11 +80,11 @@ public class Usuario {
 		this.dataCadastro = dataCadastro;
 	}
 
-	public Grupo getGrupos() {
+	public List<Grupo> getGrupos() {
 		return grupos;
 	}
 
-	public void setGrupos(Grupo grupos) {
+	public void setGrupos(List<Grupo> grupos) {
 		this.grupos = grupos;
 	}
 }
