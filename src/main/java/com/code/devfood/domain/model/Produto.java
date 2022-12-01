@@ -18,7 +18,9 @@ public class Produto {
 	
 	@Column(nullable = false)
 	private String nome;
-	
+
+	private String descricao;
+
 	@Column(nullable = false)
 	private BigDecimal preco;
 	
@@ -30,9 +32,10 @@ public class Produto {
 	public Produto() {
 	}
 
-	public Produto(Long id, String nome, BigDecimal preco, boolean ativo, Restaurante restaurante) {
+	public Produto(Long id, String nome, String descricao, BigDecimal preco, boolean ativo, Restaurante restaurante) {
 		this.id = id;
 		this.nome = nome;
+		this.descricao = descricao;
 		this.preco = preco;
 		this.ativo = ativo;
 		this.restaurante = restaurante;
@@ -76,5 +79,13 @@ public class Produto {
 
 	public void setRestaurante(Restaurante restaurante) {
 		this.restaurante = restaurante;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 }
