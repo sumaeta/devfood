@@ -31,6 +31,7 @@ public class RestauranteController {
 	@GetMapping
 	public ResponseEntity<List<Restaurante>> listar() {
 		List<Restaurante> restaurantes = this.service.listar();
+		System.out.println("TESTE: " + restaurantes.get(0).getCozinha().getNome());
 		return ResponseEntity.ok(restaurantes);
 	}
 
