@@ -23,6 +23,8 @@ import com.code.devfood.domain.repository.CozinhaRepository;
 @Service
 public class CozinhaService {
 
+	private static final String MSG_COZINHA_NÃO_ENCONTRADA = "Cozinha Não Encontrada";
+	private static final String MSG_COZINHA_EM_USO = "Cozinha de código %d não pode ser excluida, pois esta em uso";
 	private final CozinhaRepository repository;
 
 	@Autowired
@@ -39,7 +41,7 @@ public class CozinhaService {
 	//@Transactional(readOnly = true)
 	public Cozinha buscar(Long id) {
 		Optional<Cozinha> obj = this.repository.findById(id);
-		return obj.orElseThrow(() -> new EntidadeNaoEncontradaException("Cozinha Não Encontrada"));
+		return obj.orElseThrow(() -> new EntidadeNaoEncontradaException(MSG_COZINHA_NÃO_ENCONTRADA));
 	}
 	
 	@Transactional(readOnly = true)
@@ -52,21 +54,17 @@ public class CozinhaService {
 		try {
 			this.repository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(String.format("Cozinha de código %d não pode ser excluida, pois esta em uso", id));
+			throw new EntidadeEmUsoException(String.format(MSG_COZINHA_EM_USO, id));
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(HttpStatus.NOT_FOUND, "Cozinha Não Encontrada");
+			throw new EntidadeNaoEncontradaException(MSG_COZINHA_NÃO_ENCONTRADA);
 		}
 	}
 	
 	@Transactional
-	public void atualizar(Long id, Cozinha cozinha) {
-		try {
-			Cozinha obj = this.buscar(id);
-			BeanUtils.copyProperties(cozinha, obj, "id");
-			this.salvar(obj);
-		} catch (Exception e) {
-			e.getMessage();
-		}
+	public Cozinha atualizar(Long id, Cozinha cozinha) {
+		Cozinha obj = this.buscar(id);
+		BeanUtils.copyProperties(cozinha, obj, "id");
+		return this.salvar(obj);
 	}
 
 	@Transactional

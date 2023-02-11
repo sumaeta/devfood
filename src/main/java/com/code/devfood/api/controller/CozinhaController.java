@@ -36,9 +36,8 @@ public class CozinhaController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Cozinha> buscar(@PathVariable Long id) {
-		Cozinha cozinha = this.service.buscar(id);
-		return ResponseEntity.ok(cozinha);
+	public Cozinha buscar(@PathVariable Long id) {
+		return this.service.buscar(id);
 	}
 
 	@PostMapping
@@ -48,9 +47,8 @@ public class CozinhaController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Cozinha> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
-		this.service.atualizar(id, cozinha);
-		return ResponseEntity.ok().build();
+	public Cozinha atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
+		return this.service.atualizar(id, cozinha);
 	}
 
 	@DeleteMapping(value = "/{id}")
