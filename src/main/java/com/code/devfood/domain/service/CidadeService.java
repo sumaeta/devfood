@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import com.code.devfood.domain.exception.EntidadeNaoEncontradaException;
 import com.code.devfood.domain.model.Cidade;
 import com.code.devfood.domain.model.Estado;
 import com.code.devfood.domain.repository.CidadeRepository;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class CidadeService {
