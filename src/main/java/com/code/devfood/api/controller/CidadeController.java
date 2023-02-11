@@ -45,12 +45,7 @@ public class CidadeController {
 	@DeleteMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long id) {
-		try {
-			this.service.remover(id);
-		}catch (EntidadeNaoEncontradaException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-					String.format("Cidade de código %d não pode ser excluida, pois esta em uso", id));
-		}
+		this.service.remover(id);
 	}
 
 	@PutMapping(value = "/{id}")

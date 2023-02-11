@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +54,7 @@ public class CozinhaService {
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(String.format("Cozinha de código %d não pode ser excluida, pois esta em uso", id));
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException("Cozinha Não Encontrada");
+			throw new EntidadeNaoEncontradaException(HttpStatus.NOT_FOUND, "Cozinha Não Encontrada");
 		}
 	}
 	
