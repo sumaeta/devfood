@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class CidadeService {
 
+	public static final String MSG_CIDADE_EM_USO = "Cidade de código %d não pode ser excluida, pois esta em uso";
 	private final CidadeRepository repository;
 	private final EstadoService service;
 
@@ -44,7 +45,7 @@ public class CidadeService {
 			this.repository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
-					String.format("Cidade de código %d não pode ser excluida, pois esta em uso", id));
+					String.format(MSG_CIDADE_EM_USO, id));
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException("Cidade Não Encontrada");
 		}

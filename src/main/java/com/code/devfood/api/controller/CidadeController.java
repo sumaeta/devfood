@@ -31,9 +31,8 @@ public class CidadeController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Cidade> buscar(@PathVariable Long id) {
-		Cidade retorno = this.service.buscar(id);
-		return ResponseEntity.ok(retorno);
+	public Cidade buscar(@PathVariable Long id) {
+		return this.service.buscar(id);
 	}
 
 	@PostMapping
@@ -49,8 +48,7 @@ public class CidadeController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Cidade> atualizar(@PathVariable Long id, @RequestBody Cidade cidade) {
-		Cidade retorno = this.service.atualizar(id, cidade);
-		return ResponseEntity.ok().body(retorno);
+	public Cidade atualizar(@PathVariable Long id, @RequestBody Cidade cidade) {
+		return this.service.atualizar(id, cidade);
 	}
 }

@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,7 @@ import com.code.devfood.domain.repository.CozinhaRepository;
 @Service
 public class CozinhaService {
 
-	private static final String MSG_COZINHA_NÃO_ENCONTRADA = "Cozinha Não Encontrada";
+	private static final String MSG_COZINHA_NAO_ENCONTRADA = "Cozinha Não Encontrada";
 	private static final String MSG_COZINHA_EM_USO = "Cozinha de código %d não pode ser excluida, pois esta em uso";
 	private final CozinhaRepository repository;
 
@@ -41,7 +40,7 @@ public class CozinhaService {
 	//@Transactional(readOnly = true)
 	public Cozinha buscar(Long id) {
 		Optional<Cozinha> obj = this.repository.findById(id);
-		return obj.orElseThrow(() -> new EntidadeNaoEncontradaException(MSG_COZINHA_NÃO_ENCONTRADA));
+		return obj.orElseThrow(() -> new EntidadeNaoEncontradaException(MSG_COZINHA_NAO_ENCONTRADA));
 	}
 	
 	@Transactional(readOnly = true)
@@ -56,7 +55,7 @@ public class CozinhaService {
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(String.format(MSG_COZINHA_EM_USO, id));
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(MSG_COZINHA_NÃO_ENCONTRADA);
+			throw new EntidadeNaoEncontradaException(MSG_COZINHA_NAO_ENCONTRADA);
 		}
 	}
 	

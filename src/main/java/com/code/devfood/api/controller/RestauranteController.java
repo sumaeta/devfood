@@ -35,9 +35,8 @@ public class RestauranteController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Restaurante> buscar(@PathVariable Long id) {
-		Restaurante restaurantes = this.service.buscar(id);
-		return ResponseEntity.ok(restaurantes);
+	public Restaurante buscar(@PathVariable Long id) {
+		return this.service.buscar(id);
 	}
 
 	@PostMapping
@@ -47,28 +46,25 @@ public class RestauranteController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Restaurante> atualizar(@PathVariable Long id, @RequestBody Restaurante restaurante){
-		Restaurante retorno = this.service.atualizar(id, restaurante);
-		return ResponseEntity.ok(retorno);
+	public Restaurante atualizar(@PathVariable Long id, @RequestBody Restaurante restaurante){
+		return this.service.atualizar(id, restaurante);
 	}
 	
 	@PatchMapping(value = "/{id}")
 	public ResponseEntity<?> atualizarParcial(@PathVariable Long id, @RequestBody Map<String, Object> campos){
-		Restaurante restauranteAtual = this.buscar(id).getBody();
+		Restaurante restauranteAtual = this.buscar(id);
 		Restaurante retorno = this.service.atualizarParcialmente(campos, restauranteAtual);
 		return ResponseEntity.ok(retorno);
 	}
 
 	@GetMapping(value = "/taxa-frete")
-	public ResponseEntity<List<Restaurante>> buscaPorTaxaFrete(BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal){
-		List<Restaurante> retorno = service.buscaPorTaxa(taxaFreteInicial, taxaFreteFinal);
-		return ResponseEntity.ok(retorno);
+	public List<Restaurante> buscaPorTaxaFrete(BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal){
+		return service.buscaPorTaxa(taxaFreteInicial, taxaFreteFinal);
 	}
 	
 	@GetMapping(value = "/por-nome")
-	public ResponseEntity<List<Restaurante>> buscaPorNome(Long cozinhaId, String nome){
-		List<Restaurante> retorno = service.buscaPorNome(cozinhaId, nome);
-		return ResponseEntity.ok(retorno);
+	public List<Restaurante> buscaPorNome(Long cozinhaId, String nome){
+		return  this.service.buscaPorNome(cozinhaId, nome);
 	}
 	
 	@GetMapping(value = "/find")
