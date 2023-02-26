@@ -69,6 +69,13 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-mysql</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.pitest/pitest -->
+		<dependency>
+			<groupId>org.pitest</groupId>
+			<artifactId>pitest</artifactId>
+			<version>1.11.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

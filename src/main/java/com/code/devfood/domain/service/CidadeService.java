@@ -70,4 +70,16 @@ public class CidadeService {
 		obj.setEstado(estado);
 		return this.repository.save(obj);
 	}
+	
+	@Transactional
+	public Cidade teste(Cidade obj) {
+		Long estadoId = obj.getEstado().getId();
+		Estado estado = this.service.buscar(estadoId);
+
+		if (estado == null)
+			throw new EntidadeNaoEncontradaException(String.format("Estado com Id: %d não foi encontrado", estadoId));
+
+		obj.setEstado(estado);
+//		return this.repository.save(obj);
+	}
 }
